@@ -1,49 +1,48 @@
 <script>
-  export default { //This object is the App that is being imported into the main.ts file createApp(*App*)
+  import BaseCounter from './components/BaseCounter.vue'
+  import UserCard from './components/UserCard.vue'
+  import BaseButton from './components/BaseButton.vue'
+
+  export default {
+    components: {
+      BaseCounter,
+      UserCard,
+    BaseButton
+,
+    },
     data () {
       return {
+        userData: {
+          name: 'Etana',
+          food: 'Pie'
+        },
         message: 'It works',
-        counterTitle: 'Standard Counter',
-        count: 0,
-        incrementAmount: 4,
         listOfNumbers: [1,2,3,4]
       }
     },
     methods: {
-      incrementCount(number, event) {
-        this.count += this.incrementAmount
-      }
-    },
-    computed: {
-      displayTitle() {
-        if (this.count > 20){
-          return 'Long Counter'
-        } else {
-          return 'Standard Counter'
-        }
+      changeName() {
+        this.userData.name = "Meow"
       },
-      optimizedIncrementAmount(){
-        return this.displayTitle.length * this.incrementAmount
-      }
     }
   }
 </script>
 
 <template>
+  <!-- <BaseButton 
+    text="Hi"
+    icon="arrow"
+  /> -->
+  <BaseButton>{{ userData.name }} - or text</BaseButton>
+  <BaseCounter />
+  <UserCard 
+    :user="userData"
+    v-on:change-name="changeName"
+  />
   <p v-if="message.length % 2 === 0">Even: {{message.toUpperCase()}}</p>
   <p v-else>Odd: {{message}}</p>
   <ul>
     <li v-for="(number, index) in listOfNumbers" :key="`item-${index}`">{{ number }}</li>
   </ul>
   <hr>
-  
-  <h1>{{displayTitle}}</h1>
-  <h3>optimized amount: {{optimizedIncrementAmount}}</h3> 
-  <p>This optimized amount is dependent on 2 things, example of tool chaining. </p>
-  <p>{{ count }}</p>
-  <button v-on:click="incrementCount(10, $event)">Increment Count</button>
-  <div>
-    <label for="incrementCount">Increment by:</label>
-    <input type="number" v-model="incrementAmount" />
-  </div>
 </template>
